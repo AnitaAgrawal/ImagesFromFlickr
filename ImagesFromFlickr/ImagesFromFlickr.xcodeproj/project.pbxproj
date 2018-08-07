@@ -15,9 +15,11 @@
 		01D2297F21197DBE00DF5C4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01D2297D21197DBE00DF5C4D /* LaunchScreen.storyboard */; };
 		01D2298A21197DBE00DF5C4D /* ImagesFromFlickrTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2298921197DBE00DF5C4D /* ImagesFromFlickrTests.swift */; };
 		01D229992119809400DF5C4D /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D229982119809400DF5C4D /* ImageCollectionViewCell.swift */; };
-		01D2299C211980DC00DF5C4D /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2299B211980DC00DF5C4D /* Utilities.swift */; };
+		01D2299C211980DC00DF5C4D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2299B211980DC00DF5C4D /* Constants.swift */; };
 		01D2299E2119852600DF5C4D /* FlickrPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2299D2119852600DF5C4D /* FlickrPhotos.swift */; };
 		01D229A12119878600DF5C4D /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D229A02119878600DF5C4D /* Networking.swift */; };
+		01D229A32119C5E300DF5C4D /* UtilityExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D229A22119C5E300DF5C4D /* UtilityExtensions.swift */; };
+		01D229A52119CDE400DF5C4D /* ImageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D229A42119CDE400DF5C4D /* ImageHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,9 +45,11 @@
 		01D2298921197DBE00DF5C4D /* ImagesFromFlickrTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesFromFlickrTests.swift; sourceTree = "<group>"; };
 		01D2298B21197DBE00DF5C4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		01D229982119809400DF5C4D /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		01D2299B211980DC00DF5C4D /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		01D2299B211980DC00DF5C4D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		01D2299D2119852600DF5C4D /* FlickrPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhotos.swift; sourceTree = "<group>"; };
 		01D229A02119878600DF5C4D /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		01D229A22119C5E300DF5C4D /* UtilityExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
+		01D229A42119CDE400DF5C4D /* ImageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +142,9 @@
 		01D2299A211980C200DF5C4D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				01D2299B211980DC00DF5C4D /* Utilities.swift */,
+				01D2299B211980DC00DF5C4D /* Constants.swift */,
+				01D229A22119C5E300DF5C4D /* UtilityExtensions.swift */,
+				01D229A42119CDE400DF5C4D /* ImageHandler.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -255,9 +261,11 @@
 				01D2297421197DBD00DF5C4D /* ViewController.swift in Sources */,
 				01D2297221197DBD00DF5C4D /* AppDelegate.swift in Sources */,
 				01D229992119809400DF5C4D /* ImageCollectionViewCell.swift in Sources */,
-				01D2299C211980DC00DF5C4D /* Utilities.swift in Sources */,
+				01D2299C211980DC00DF5C4D /* Constants.swift in Sources */,
 				01D2297A21197DBD00DF5C4D /* ImagesFromFlickr.xcdatamodeld in Sources */,
 				01D2299E2119852600DF5C4D /* FlickrPhotos.swift in Sources */,
+				01D229A32119C5E300DF5C4D /* UtilityExtensions.swift in Sources */,
+				01D229A52119CDE400DF5C4D /* ImageHandler.swift in Sources */,
 				01D229A12119878600DF5C4D /* Networking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

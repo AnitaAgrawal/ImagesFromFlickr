@@ -9,24 +9,25 @@
 import Foundation
 
 class FlickrPhotos {
-    var photos = [PhotoDetails]()
+    var photos: [[PhotoDetails]] = []
     var page = 0
     var pages = 0
-    var perpage = 20
+    var perpage = 30
     var total = 0
     
     func getRecentPhotos(completionHandler: @escaping (Bool)->Void) {
-        ConnectionManager.makeHTTPRequest(url: APIEndPoints.GetRecent, queryParameters: ["\(page + 1)"], bodyParameters: [:], successHandler: { responseObject in
+        ConnectionManager.makeHTTPRequest(url: APIEndPoints.GetRecent, queryParameters: [APIConstants.page: "\(page + 1)", APIConstants.per_page: "\(perpage)"], bodyParameters: [:], successHandler: { responseObject in
             print(responseObject)
             guard let photosObj = responseObject[APIConstants.photos] as? [String: Any] else {return completionHandler(false)}
             self.page = photosObj[APIConstants.page] as? Int ?? 0
+            self.photos.append([])
             self.pages = photosObj[APIConstants.pages] as? Int ?? 0
-            self.perpage = photosObj[APIConstants.perpage] as? Int ?? 20
+            self.perpage = photosObj[APIConstants.perpage] as? Int ?? 30
             self.total = photosObj[APIConstants.total] as? Int ?? 0
             guard let photosArray = photosObj[APIConstants.photo] as? [[String:Any]] else {return completionHandler(false)}
             for photo in photosArray {
                 let photoDetails = PhotoDetails(photoDetails: photo)
-                self.photos.append(photoDetails)
+                self.photos[self.page - 1].append(photoDetails)
             }
              completionHandler(true)
         }) { (error) in

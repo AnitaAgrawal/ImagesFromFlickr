@@ -33,6 +33,7 @@ struct APIConstants {
     static let ispublic = "ispublic"
     static let isfriend = "isfriend"
     static let isfamily = "isfamily"
+    static let per_page = "per_page"
 }
 
 struct APIEndPoints {

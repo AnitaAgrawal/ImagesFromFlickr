@@ -12,15 +12,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var flickrImageView: UIImageView!
     
     func updateCellWithDetails(photoDetails: PhotoDetails) {
+        flickrImageView.isHidden = true
         let urlStr = "https://farm\(photoDetails.farm).static.flickr.com/\(photoDetails.server)/\(photoDetails.id)_\(photoDetails.secret).jpg"
-        guard let url = URL(string: urlStr) else {
-            return
-        }
-        do {
-            let data = try Data(contentsOf: url)
-            flickrImageView.image = UIImage(data: data)
-        } catch  {
-            print("Error occurred during image download")
-        }
+        flickrImageView.loadImageFrom(urlStr: urlStr)
     }
 }

@@ -21,7 +21,9 @@ class ViewController: UIViewController {
         flickrPhotos.getRecentPhotos { success in
             if success {
                 DispatchQueue.main.async {
-                    self.imageCollectionView.reloadData()
+                   
+                    self.imageCollectionView.insertSections([self.imageCollectionView.numberOfSections])
+//                    self.imageCollectionView.reloadData()
                 }
             }
         }
@@ -31,10 +33,13 @@ class ViewController: UIViewController {
 
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return flickrPhotos.photos.count
+    }
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return flickrPhotos.photos.count ;
+        return flickrPhotos.photos[section].count ;
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -44,13 +49,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                                 return UICollectionViewCell()
         }
         cell.backgroundColor = #colorLiteral(red: 0.3490620852, green: 0.3621737957, blue: 0.3706075847, alpha: 1)
-        cell.updateCellWithDetails(photoDetails: flickrPhotos.photos[indexPath.row])
-//        guard let ticketDetailsModel = ticketDetailsModel else {return cell}
-//        let imageURL = ticketDetailsModel.helpDeskAttachments[indexPath.row].attachemtThumbnailUrl
-//        if imageURL.isEmpty {
-//            return cell
-//        }
-//        cell.updateImageFromServer(imageUrlString: imageURL)
+        cell.updateCellWithDetails(photoDetails: flickrPhotos.photos[indexPath.section][indexPath.row])
         
         return cell
     }
@@ -62,7 +61,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
             if (flickrPhotos.page * flickrPhotos.perpage) < flickrPhotos.total {
-                if indexPath.row == (flickrPhotos.photos.count - 6) {
+                if ((indexPath.section * flickrPhotos.perpage) + indexPath.row == (flickrPhotos.photos.count * flickrPhotos.perpage) - 6) {
                     self.getFlickrPhotos()
                 }else {return}
             }

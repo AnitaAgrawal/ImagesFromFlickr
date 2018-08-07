@@ -26,8 +26,14 @@ enum ErrorHandling: Error {
 
 class ConnectionManager {
     
-    class func makeHTTPRequest(url:String, apiMethod : HTTPMethod = .get, queryParameters:[String], bodyParameters:[String:Any], successHandler:@escaping SuccessHandler, failureHandler:@escaping FailureHandler)->Void {
-        let path = "\(APIKeys.BaseURL)\(url)&api_key=\(APIKeys.ApiKey)&page=\(queryParameters.first ?? "1")&per_page=20&format=json&nojsoncallback=1"
+    class func makeHTTPRequest(url:String, apiMethod : HTTPMethod = .get, queryParameters:[String:Any], bodyParameters:[String:Any], successHandler:@escaping SuccessHandler, failureHandler:@escaping FailureHandler)->Void {
+        var path = "\(APIKeys.BaseURL)\(url)&api_key=\(APIKeys.ApiKey)&format=json&nojsoncallback=1"
+        
+        queryParameters.forEach { (arg) in
+            let (key, value) = arg
+            path.append("&\(key)=\(value)")
+        }
+        
         guard let pathEncodedString = path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed), let pathURL = URL(string: pathEncodedString) else {
             return
         }
