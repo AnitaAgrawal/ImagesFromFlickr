@@ -13,7 +13,6 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     func updateCellWithDetails(photoDetails: PhotoDetails) {
         flickrImageView.isHidden = true
-        let urlStr = "https://farm\(photoDetails.farm).static.flickr.com/\(photoDetails.server)/\(photoDetails.id)_\(photoDetails.secret).jpg"
-        flickrImageView.loadImageFrom(urlStr: urlStr)
+        flickrImageView.loadImageFrom(urlStr: photoDetails.getImageUrlString())
     }
 }

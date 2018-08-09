@@ -9,6 +9,13 @@
 import Foundation
 import UIKit
 
+/**
+ *This class loads image using image url,
+ *either download from server
+ *or get it from local cache.
+ *if image is not there in cache, then it'll download the image from server and save it in cache for future use.
+ */
+
 extension UIImageView {
     func loadImageFrom(urlStr: String) {
         guard let url = URL(string: urlStr) else {
@@ -26,17 +33,14 @@ extension UIImageView {
                     let data = try Data(contentsOf: url)
                     DispatchQueue.main.async {[weak self] in
                         guard let image = UIImage(data: data) else {return}
-                        
                         self?.image = image
                         ImageHandler.saveImageToCache(imageName: urlStr, image: image)
                         self?.isHidden = false
                     }
                 }
-                
             } catch  {
                 print("Error occurred during image download")
             }
         }
     }
 }
-

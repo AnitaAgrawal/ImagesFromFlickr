@@ -7,6 +7,11 @@
 //
 
 import Foundation
+import UIKit
+
+/**
+ *This class takes care of server calls, getting photos for searched string.
+ */
 
 typealias SuccessHandler = (_ responseDict:[String: Any]) -> Void
 
@@ -25,9 +30,9 @@ enum ErrorHandling: Error {
 }
 
 class ConnectionManager {
-    
-    class func makeHTTPRequest(url:String, apiMethod : HTTPMethod = .get, queryParameters:[String:Any], bodyParameters:[String:Any], successHandler:@escaping SuccessHandler, failureHandler:@escaping FailureHandler)->Void {
-        var path = "\(APIKeys.BaseURL)\(url)&api_key=\(APIKeys.ApiKey)&format=json&nojsoncallback=1"
+    class func makeHTTPRequest(url:String, apiMethod : HTTPMethod = .get, queryParameters:[String:Any], bodyParameters:[String:Any], successHandler:@escaping SuccessHandler, failureHandler:@escaping FailureHandler) -> URLSessionDataTask? {
+        
+        var path = "\(APIKeys.BaseURL)\(url)&api_key=\(APIKeys.ApiKey)&format=json&nojsoncallback=1&safe_search=1"
         
         queryParameters.forEach { (arg) in
             let (key, value) = arg
@@ -35,10 +40,16 @@ class ConnectionManager {
         }
         
         guard let pathEncodedString = path.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed), let pathURL = URL(string: pathEncodedString) else {
-            return
+            return nil
         }
-        URLSession.shared.dataTask(with: pathURL) { (data, response, error) in
-            
+        //Enabling Network Activity indicator on Status bar
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        
+        let task = URLSession.shared.dataTask(with: pathURL) { (data, response, error) in
+            //Disabling Network Activity indicator on Status bar, after getting response
+            DispatchQueue.main.async {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = false
+            }
             if let error = error {
                 failureHandler(error)
             }
@@ -58,7 +69,7 @@ class ConnectionManager {
                 print("didnt work")
                 failureHandler(ErrorHandling.jsonSerializationFailed)
             }
-        }.resume()
-        
+        }
+        return task
     }
 }

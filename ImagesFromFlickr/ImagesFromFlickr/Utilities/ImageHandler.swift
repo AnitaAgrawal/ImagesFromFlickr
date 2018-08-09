@@ -8,30 +8,28 @@
 
 import Foundation
 import UIKit
-
-class ImageHandler {
+/**
+ * This Struct is used to save and retrieve images in Documents directory.
+ * This will help in image cache to improve the performance.
+*/
+struct ImageHandler {
     static func getImageFromCache(imageName: String) -> UIImage? {
-        guard let directoryPath =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {return nil}
-        let imageURL = directoryPath.appendingPathComponent(imageName.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "_"))
-        
-        return UIImage.init(contentsOfFile: imageURL.path)
+        guard let imageURL = getImagePathFor(imageName: imageName) else {return nil}
+        return UIImage(contentsOfFile: imageURL.path)
     }
     
     static func saveImageToCache(imageName: String, image: UIImage) {
-        guard let directoryPath =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {return}
-        
-//        let filename = imageName.appending(".jpg")
-//        let filepath = directoryPath.appending(imageName)
-//        print(filepath)
-        let url = directoryPath.appendingPathComponent(imageName.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "_"))
-        print(url)
+        guard let imageURL = getImagePathFor(imageName: imageName) else {return}
         do {
-            try UIImageJPEGRepresentation(image, 1.0)?.write(to: url, options: .atomic)
+            try UIImageJPEGRepresentation(image, 1.0)?.write(to: imageURL, options: .atomic)
         } catch {
-            debugPrint(error)
-            debugPrint("file cant not be save at path \(directoryPath), with error : \(error)");
+            debugPrint("file cant not be save at path \(imageURL), with error : \(error)");
         }
     }
+    
+    private static func getImagePathFor(imageName: String) -> URL? {
+        guard let directoryPath =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {return nil}
+        let imageURL = directoryPath.appendingPathComponent(imageName.replacingOccurrences(of: "https://", with: "").replacingOccurrences(of: "/", with: "_"))
+        return imageURL
+    }
 }
-
-

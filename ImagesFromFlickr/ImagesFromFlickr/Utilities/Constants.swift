@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+/**
+ *This class holds all kinds of contants used through out the app.
+ */
+
 struct AppConstants {
     static let ScreenWidth = UIScreen.main.bounds.width
 }
