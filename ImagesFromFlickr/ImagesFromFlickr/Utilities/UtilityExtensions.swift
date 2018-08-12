@@ -44,3 +44,24 @@ extension UIImageView {
         }
     }
 }
+
+extension UIViewController {
+    /**
+     This funtion is used to display an alert on keyWindow.
+     
+     - parameter title : Alert title, pass nil for no title
+     - parameter messate : Alert Message
+     - parameter actions : An array containing all alert actions to be performed on the alert. Each action will have title, style and completion handler block if needed to execute when tapped on.
+     */
+    func showAlert(title : String?,
+                          messageBody message : String,
+                          andActions actions : [UIAlertAction]) -> Void {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            for alertAction in actions {
+                alert.addAction(alertAction)
+            }
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+}

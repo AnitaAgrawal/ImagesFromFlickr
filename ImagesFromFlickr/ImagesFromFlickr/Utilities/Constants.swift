@@ -49,3 +49,10 @@ struct APIKeys {
     static let ApiKey = "3e7cc266ae2b0e0d78e279ce8e361736"
     static let BaseURL = "https://api.flickr.com/services/rest/?method="
 }
+
+struct ErrorMessages {
+    static let NoInternet = "No internet. Please check your connection."
+    static let Default = "Something went wrong. Please try again later."
+    static let Server = "Internal server error. Please contact to administration."
+    static let Client = "Something went wrong. Please check whether the details provided are correct."
+}

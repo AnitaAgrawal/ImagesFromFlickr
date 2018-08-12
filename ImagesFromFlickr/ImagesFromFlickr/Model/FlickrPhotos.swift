@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum Result {
+    case success
+    case failure(ErrorHandling)
+}
+
 class FlickrPhotos {
     private var task: URLSessionDataTask?
     //photos is a 2D array where the count of photos is number of sections
@@ -28,7 +33,7 @@ class FlickrPhotos {
         }
     }
     
-    func getPhotos(completionHandler: @escaping (Bool)->Void) {
+    func getPhotos(completionHandler: @escaping (Result)->Void) {
         // Cancelling the already running task as we dont need it anymore since the new request has arrived.
         // This will eliminate the duplication and also prevent from displaying wrong data
         if let task = self.task {
@@ -38,21 +43,20 @@ class FlickrPhotos {
         task = ConnectionManager.makeHTTPRequest(url: APIEndPoints.Search, queryParameters: [APIConstants.page: "\(page + 1)", APIConstants.per_page: "\(perpage)","text":searchStr.isEmpty ? "kitten" : searchStr], bodyParameters: [:], successHandler: { (responseObject) in
             print(responseObject)
                         
-            guard let photosObj = responseObject[APIConstants.photos] as? [String: Any] else {return completionHandler(false)}
+            guard let photosObj = responseObject[APIConstants.photos] as? [String: Any] else {return completionHandler(Result.failure(.dataFoundNil))}
             self.page = photosObj[APIConstants.page] as? Int ?? 0
             self.pages = photosObj[APIConstants.pages] as? Int ?? 0
             self.perpage = photosObj[APIConstants.perpage] as? Int ?? 30
             self.total = Int(photosObj[APIConstants.total] as? String ?? "0")!
-            guard let photosArray = photosObj[APIConstants.photo] as? [[String:Any]] else {return completionHandler(false)}
+            guard let photosArray = photosObj[APIConstants.photo] as? [[String:Any]] else {return completionHandler(Result.failure(.dataFoundNil))}
             // If the photos array is empty or less than page value, then adding an empty array into it, so that in the next line we can access it.
             if (self.photos.count == 0) || (self.photos.count < self.page) {
                 self.photos.append([])
             }
             self.photos[self.page - 1] = PhotoDetails.makeArrayOfPhotoDetailsModelFrom(photoDetailsArray: photosArray)
-             completionHandler(true)
+             completionHandler(Result.success)
         }) { (error) in
-            print(error?.localizedDescription ?? "Error occurred")
-             completionHandler(false)
+             completionHandler(Result.failure(error))
         }
         task?.resume()
     }

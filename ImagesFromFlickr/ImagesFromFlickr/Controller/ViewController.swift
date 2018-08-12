@@ -20,18 +20,28 @@ class ViewController: UIViewController {
     }
     
     func getFlickrPhotos() {
-        flickrPhotos.getPhotos { success in
-            if success {
+        flickrPhotos.getPhotos { result in
+            switch result {
+            case .success:
                 DispatchQueue.main.async {
-                        self.imageCollectionView.insertSections([self.imageCollectionView.numberOfSections])
-                    
+                self.imageCollectionView.insertSections([self.imageCollectionView.numberOfSections])
                 }
-            }else {
-                //Handle failure cases
+            case .failure(let reason):
+                var errorBody = ""
+                switch reason {
+                case .noInternetConnection:
+                    errorBody = ErrorMessages.NoInternet
+                case .dataFoundNil, .jsonSerializationFailed, .temporarilyUnavailable:
+                    errorBody = ErrorMessages.Default
+                case .internalServerError:
+                    errorBody = ErrorMessages.NoInternet
+                case .clientError:
+                    errorBody = ErrorMessages.Client
+                }
+                self.showAlert(title: "Error", messageBody: errorBody, andActions: [UIAlertAction(title: "OK", style: .default)])
             }
         }
     }
-
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
