@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01BC389F2120905D00B2022C /* NetworkMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC389E2120905D00B2022C /* NetworkMock.swift */; };
+		01BC38A32120AF9100B2022C /* TestData.json in Resources */ = {isa = PBXBuildFile; fileRef = 01BC38A22120AF9100B2022C /* TestData.json */; };
 		01D2297221197DBD00DF5C4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2297121197DBD00DF5C4D /* AppDelegate.swift */; };
 		01D2297421197DBD00DF5C4D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2297321197DBD00DF5C4D /* ViewController.swift */; };
 		01D2297721197DBD00DF5C4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 01D2297521197DBD00DF5C4D /* Main.storyboard */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01BC389E2120905D00B2022C /* NetworkMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMock.swift; sourceTree = "<group>"; };
+		01BC38A22120AF9100B2022C /* TestData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestData.json; sourceTree = "<group>"; };
 		01D2296E21197DBD00DF5C4D /* ImagesFromFlickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImagesFromFlickr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		01D2297121197DBD00DF5C4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		01D2297321197DBD00DF5C4D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +74,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01BC389D2120904000B2022C /* NetworkMock */ = {
+			isa = PBXGroup;
+			children = (
+				01BC38A22120AF9100B2022C /* TestData.json */,
+				01BC389E2120905D00B2022C /* NetworkMock.swift */,
+			);
+			path = NetworkMock;
+			sourceTree = "<group>";
+		};
 		01D2296521197DBD00DF5C4D = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +165,7 @@
 		01D2299F2119876300DF5C4D /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				01BC389D2120904000B2022C /* NetworkMock */,
 				01D229A02119878600DF5C4D /* Networking.swift */,
 			);
 			path = Network;
@@ -241,6 +255,7 @@
 				01D2297F21197DBE00DF5C4D /* LaunchScreen.storyboard in Resources */,
 				01D2297C21197DBE00DF5C4D /* Assets.xcassets in Resources */,
 				01D2297721197DBD00DF5C4D /* Main.storyboard in Resources */,
+				01BC38A32120AF9100B2022C /* TestData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +277,7 @@
 				01D2297221197DBD00DF5C4D /* AppDelegate.swift in Sources */,
 				01D229992119809400DF5C4D /* ImageCollectionViewCell.swift in Sources */,
 				01D2299C211980DC00DF5C4D /* Constants.swift in Sources */,
+				01BC389F2120905D00B2022C /* NetworkMock.swift in Sources */,
 				01D2297A21197DBD00DF5C4D /* ImagesFromFlickr.xcdatamodeld in Sources */,
 				01D2299E2119852600DF5C4D /* FlickrPhotos.swift in Sources */,
 				01D229A32119C5E300DF5C4D /* UtilityExtensions.swift in Sources */,

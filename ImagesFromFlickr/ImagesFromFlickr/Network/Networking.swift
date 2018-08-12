@@ -13,9 +13,7 @@ import UIKit
  *This class takes care of server calls, getting photos for searched string.
  */
 
-typealias SuccessHandler = (_ responseDict:[String: Any]) -> Void
-
-typealias FailureHandler = (_ error:ErrorHandling) -> Void
+typealias CompletionHandler = (_ result:Result) -> Void
 
 enum HTTPMethod: String {
     case get = "get"
@@ -47,8 +45,15 @@ enum ErrorHandling: Error {
     case temporarilyUnavailable
 }
 
+enum Result {
+    case success([String: Any])
+    case failure(ErrorHandling)
+}
+
 class ConnectionManager {
-    class func makeHTTPRequest(url:String, apiMethod : HTTPMethod = .get, queryParameters:[String:Any], bodyParameters:[String:Any], successHandler:@escaping SuccessHandler, failureHandler:@escaping FailureHandler) -> URLSessionDataTask? {
+    static var manager:RequestState = .live
+    
+    class func makeHTTPRequest(url:String, apiMethod : HTTPMethod = .get, queryParameters:[String:Any], bodyParameters:[String:Any], completionHandler:@escaping CompletionHandler) -> URLSessionDataTask? {
         
         var path = "\(APIKeys.BaseURL)\(url)&api_key=\(APIKeys.ApiKey)&format=json&nojsoncallback=1&safe_search=1"
         
@@ -63,7 +68,7 @@ class ConnectionManager {
         //Enabling Network Activity indicator on Status bar
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         
-        let task = URLSession.shared.dataTask(with: pathURL) { (data, response, error) in
+        let task = manager.session.dataTask(with: pathURL) { (data, response, error) in
             //Disabling Network Activity indicator on Status bar, after getting response
             DispatchQueue.main.async {
                 UIApplication.shared.isNetworkActivityIndicatorVisible = false
@@ -72,34 +77,33 @@ class ConnectionManager {
                 if error?.localizedDescription == "cancelled" {//old request has been cancelled as new request had been initiated
                     return
                 }
-                failureHandler(ErrorHandling.internalServerError)
+                completionHandler(Result.failure(ErrorHandling.internalServerError))
                 return
             }
             if (400...499).contains(httpResponse.statusCode) {
-                failureHandler(ErrorHandling.clientError)
+                completionHandler(Result.failure(ErrorHandling.clientError))
                 return
             } else if (500...599).contains(httpResponse.statusCode) {
-                failureHandler(ErrorHandling.internalServerError)
+                completionHandler(Result.failure(ErrorHandling.internalServerError))
                 return
             }
             if error != nil {
-                failureHandler(ErrorHandling.temporarilyUnavailable)
+                completionHandler(Result.failure(ErrorHandling.temporarilyUnavailable))
             }
             guard let data = data else {
-                failureHandler(ErrorHandling.dataFoundNil)
+                completionHandler(Result.failure(ErrorHandling.dataFoundNil))
                 return
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-                guard let jsonResponse = json else {
-                    failureHandler(ErrorHandling.jsonSerializationFailed)
+                guard let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+                    completionHandler(Result.failure(ErrorHandling.jsonSerializationFailed))
                     return
                 }
-                successHandler(jsonResponse)
+                completionHandler(Result.success(jsonResponse))
             } catch {
                 print("didnt work")
-                failureHandler(ErrorHandling.jsonSerializationFailed)
+                completionHandler(Result.failure(ErrorHandling.jsonSerializationFailed))
             }
         }
         return task

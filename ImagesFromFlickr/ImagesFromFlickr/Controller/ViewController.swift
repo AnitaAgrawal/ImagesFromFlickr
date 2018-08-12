@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     func getFlickrPhotos() {
         flickrPhotos.getPhotos { result in
             switch result {
-            case .success:
+            case .success(_):
                 DispatchQueue.main.async {
                 self.imageCollectionView.insertSections([self.imageCollectionView.numberOfSections])
                 }
