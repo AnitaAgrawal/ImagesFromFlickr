@@ -11,48 +11,25 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var imageCollectionView: UICollectionView!
     
-    var flickrPhotos = FlickrPhotos()
+    var imageViewModel = ImageViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageViewModel.delegate = self
         // This will get the images for default search string "kittens"
-        getFlickrPhotos()
-    }
-    
-    func getFlickrPhotos() {
-        flickrPhotos.getPhotos { result in
-            switch result {
-            case .success(_):
-                DispatchQueue.main.async {
-                self.imageCollectionView.insertSections([self.imageCollectionView.numberOfSections])
-                }
-            case .failure(let reason):
-                var errorBody = ""
-                switch reason {
-                case .noInternetConnection:
-                    errorBody = ErrorMessages.NoInternet
-                case .dataFoundNil, .jsonSerializationFailed, .temporarilyUnavailable:
-                    errorBody = ErrorMessages.Default
-                case .internalServerError:
-                    errorBody = ErrorMessages.NoInternet
-                case .clientError:
-                    errorBody = ErrorMessages.Client
-                }
-                self.showAlert(title: "Error", messageBody: errorBody, andActions: [UIAlertAction(title: "OK", style: .default)])
-            }
-        }
+        imageViewModel.getFlickrPhotos()
     }
 }
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     //Making each page a section
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return flickrPhotos.photos.count
+        return imageViewModel.numberOfSections
     }
     //Making per page items as items in section
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return flickrPhotos.photos[section].count ;
+        return imageViewModel.getNumberOfRowsFor(section: section)
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -61,9 +38,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
                                                             for: indexPath) as? ImageCollectionViewCell else {
                                                                 return UICollectionViewCell()
         }
-        cell.backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        cell.updateCellWithDetails(photoDetails: flickrPhotos.photos[indexPath.section][indexPath.row])
-        
+        cell.updateCellWithDetails(photoURL: imageViewModel.getImageURLFor(section: indexPath.section, row: indexPath.row))
         return cell
     }
 
@@ -74,16 +49,8 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        // Logic for pagination
-        // let page = 1, perpage = 30, total = 10000
-        //let section = 0, row = 21, photos.count = 30
-        //if (1*30 < 10000) true
-        //if (0*30 + 24 == (1*30 - 6)) true // we have only two more rows left, so get photos for another page
-            if (flickrPhotos.page * flickrPhotos.perpage) < flickrPhotos.total {
-                if ((indexPath.section * flickrPhotos.perpage) + indexPath.row == (flickrPhotos.photos.count * flickrPhotos.perpage) - 6) {
-                    getFlickrPhotos()
-                }// We are not at the bottom of the collection view and still have many item to show to user.
-            }//else we are at the end of the table and displayed all the availble images.
+        //LoadMore
+        imageViewModel.loadMoreFor(section: indexPath.section, row: indexPath.row)
     }
 }
 
@@ -91,12 +58,21 @@ extension ViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //Setting search string in the model as it will provide search text to api call and clear the old data
-        flickrPhotos.searchStr = searchBar.text ?? "kittens"
         imageCollectionView.reloadData()
-        getFlickrPhotos()
+        imageViewModel.searchStr = searchBar.text ?? "kittens"
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+    }
+}
+
+extension ViewController: NetworkHandler {
+    func reloadData() {
+        self.imageCollectionView.insertSections([self.imageCollectionView.numberOfSections])
+    }
+    
+    func showFailureAlertWithMessage(message: String) {
+        self.showAlert(title: "Error", messageBody: message, andActions: [UIAlertAction(title: "OK", style: .default)] )
     }
 }

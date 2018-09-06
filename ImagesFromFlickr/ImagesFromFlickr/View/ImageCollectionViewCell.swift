@@ -11,8 +11,18 @@ import UIKit
 class ImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var flickrImageView: UIImageView!
     
-    func updateCellWithDetails(photoDetails: PhotoDetails) {
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        backgroundColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        flickrImageView.image = nil
+    }
+    
+    func updateCellWithDetails(photoURL: String) {
         flickrImageView.isHidden = true
-        flickrImageView.loadImageFrom(urlStr: photoDetails.getImageUrlString())
+        flickrImageView.loadImageFrom(urlStr: photoURL)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01A2366621418C5F005D63CE /* ImageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A2366521418C5F005D63CE /* ImageViewModel.swift */; };
 		01BC389F2120905D00B2022C /* NetworkMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BC389E2120905D00B2022C /* NetworkMock.swift */; };
 		01BC38A32120AF9100B2022C /* TestData.json in Resources */ = {isa = PBXBuildFile; fileRef = 01BC38A22120AF9100B2022C /* TestData.json */; };
 		01D2297221197DBD00DF5C4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D2297121197DBD00DF5C4D /* AppDelegate.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01A2366521418C5F005D63CE /* ImageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewModel.swift; sourceTree = "<group>"; };
 		01BC389E2120905D00B2022C /* NetworkMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMock.swift; sourceTree = "<group>"; };
 		01BC38A22120AF9100B2022C /* TestData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = TestData.json; sourceTree = "<group>"; };
 		01D2296E21197DBD00DF5C4D /* ImagesFromFlickr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImagesFromFlickr.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +76,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01A23662214187A0005D63CE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				01A2366521418C5F005D63CE /* ImageViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		01BC389D2120904000B2022C /* NetworkMock */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +114,7 @@
 		01D2297021197DBD00DF5C4D /* ImagesFromFlickr */ = {
 			isa = PBXGroup;
 			children = (
+				01A23662214187A0005D63CE /* ViewModel */,
 				01D2299F2119876300DF5C4D /* Network */,
 				01D2299A211980C200DF5C4D /* Utilities */,
 				01D229972119806E00DF5C4D /* Controller */,
@@ -279,6 +290,7 @@
 				01D2299C211980DC00DF5C4D /* Constants.swift in Sources */,
 				01BC389F2120905D00B2022C /* NetworkMock.swift in Sources */,
 				01D2297A21197DBD00DF5C4D /* ImagesFromFlickr.xcdatamodeld in Sources */,
+				01A2366621418C5F005D63CE /* ImageViewModel.swift in Sources */,
 				01D2299E2119852600DF5C4D /* FlickrPhotos.swift in Sources */,
 				01D229A32119C5E300DF5C4D /* UtilityExtensions.swift in Sources */,
 				01D229A52119CDE400DF5C4D /* ImageHandler.swift in Sources */,
