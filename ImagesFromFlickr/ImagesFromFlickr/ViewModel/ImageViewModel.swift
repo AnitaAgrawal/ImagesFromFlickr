@@ -47,7 +47,7 @@ class ImageViewModel {
         }//else we are at the end of the table and displayed all the availble images.
     }
     
-    private func getFlickrPhotos() {
+    func getFlickrPhotos() {
         flickrPhotos.getPhotos { result in
             switch result {
             case .success(_):
